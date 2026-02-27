@@ -1,0 +1,103 @@
+"use client";
+
+import * as React from "react";
+import * as TabsPrimitive from "@radix-ui/react-tabs";
+
+import { cn } from "@/lib/utils";
+
+// ---------------------------------------------------------------------------
+// Tabs (root)
+// ---------------------------------------------------------------------------
+
+const Tabs = TabsPrimitive.Root;
+
+// ---------------------------------------------------------------------------
+// TabsList
+// ---------------------------------------------------------------------------
+
+const TabsList = React.forwardRef<
+  React.ComponentRef<typeof TabsPrimitive.List>,
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.List> & {
+    /** Visual variant for the tab list. */
+    variant?: "default" | "underline";
+  }
+>(({ className, variant = "default", ...props }, ref) => (
+  <TabsPrimitive.List
+    ref={ref}
+    className={cn(
+      "inline-flex items-center justify-center text-muted-foreground",
+      variant === "default" &&
+        "h-10 rounded-md bg-muted p-1 gap-1",
+      variant === "underline" &&
+        "h-10 w-full border-b border-border gap-4",
+      className,
+    )}
+    data-variant={variant}
+    {...props}
+  />
+));
+TabsList.displayName = TabsPrimitive.List.displayName;
+
+// ---------------------------------------------------------------------------
+// TabsTrigger
+// ---------------------------------------------------------------------------
+
+const TabsTrigger = React.forwardRef<
+  React.ComponentRef<typeof TabsPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger> & {
+    /** Visual variant — should match the parent TabsList variant. */
+    variant?: "default" | "underline";
+  }
+>(({ className, variant = "default", ...props }, ref) => (
+  <TabsPrimitive.Trigger
+    ref={ref}
+    className={cn(
+      "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all",
+      "ring-offset-background",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+      "disabled:pointer-events-none disabled:opacity-50",
+      variant === "default" && [
+        "rounded-sm px-3 py-1.5",
+        "data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm",
+      ],
+      variant === "underline" && [
+        "relative px-1 pb-2.5",
+        "data-[state=active]:text-primary",
+        // Gold underline indicator
+        "after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:rounded-full",
+        "after:scale-x-0 after:bg-primary after:transition-transform after:duration-200",
+        "data-[state=active]:after:scale-x-100",
+      ],
+      className,
+    )}
+    {...props}
+  />
+));
+TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
+
+// ---------------------------------------------------------------------------
+// TabsContent
+// ---------------------------------------------------------------------------
+
+const TabsContent = React.forwardRef<
+  React.ComponentRef<typeof TabsPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>
+>(({ className, ...props }, ref) => (
+  <TabsPrimitive.Content
+    ref={ref}
+    className={cn(
+      "mt-2 ring-offset-background",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+      "data-[state=inactive]:hidden",
+      className,
+    )}
+    {...props}
+  />
+));
+TabsContent.displayName = TabsPrimitive.Content.displayName;
+
+// ---------------------------------------------------------------------------
+// Exports
+// ---------------------------------------------------------------------------
+
+export { Tabs, TabsList, TabsTrigger, TabsContent };
