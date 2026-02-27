@@ -52,6 +52,9 @@ export default function Error({
         <p className="mb-2 text-muted-foreground">
           We encountered an unexpected error. Our team has been notified.
         </p>
+        <p className="mb-2 font-mono text-xs text-destructive break-all">
+          {error.message}
+        </p>
         {error.digest && (
           <p className="mb-6 font-mono text-xs text-muted-foreground/60">
             Error ID: {error.digest}
