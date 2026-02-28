@@ -34,6 +34,10 @@ const knownRoutePrefixes = new Set([
   "messages",
   "notifications",
   "subscriptions",
+  "profile",
+  "bookmarks",
+  "feed",
+  "explore",
   "search",
   "_next",
 ]);
