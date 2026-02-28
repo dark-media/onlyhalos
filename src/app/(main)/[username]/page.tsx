@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     select: { displayName: true, bio: true, avatarUrl: true, isCreator: true },
   });
 
-  if (!user || !user.isCreator) {
+  if (!user) {
     return { title: "Profile Not Found" };
   }
 
@@ -109,7 +109,7 @@ async function getCreatorProfile(username: string, currentUserId?: string) {
     },
   });
 
-  if (!creator || !creator.isCreator) return null;
+  if (!creator) return null;
 
   // Get total likes across all posts
   const likeAgg = await prisma.post.aggregate({
@@ -161,6 +161,7 @@ async function getCreatorProfile(username: string, currentUserId?: string) {
     isSubscribed: !!subscription,
     currentTierName: subscription?.tier.name,
     currentTierId: subscription?.tierId ?? null,
+    isCreator: creator.isCreator,
     isOwnProfile: currentUserId === creator.id,
   };
 }
@@ -183,23 +184,44 @@ export default async function CreatorProfilePage({ params }: PageProps) {
       {/* Profile header */}
       <CreatorProfileHeader creator={profile} />
 
-      {/* Subscription tiers */}
-      {profile.tiers.length > 0 && (
-        <CreatorTiersDisplay
-          creatorId={profile.id}
-          creatorName={profile.displayName}
-          tiers={profile.tiers}
-          currentTierId={profile.currentTierId}
-        />
+      {/* Creator-only sections */}
+      {profile.isCreator && (
+        <>
+          {/* Subscription tiers */}
+          {profile.tiers.length > 0 && (
+            <CreatorTiersDisplay
+              creatorId={profile.id}
+              creatorName={profile.displayName}
+              tiers={profile.tiers}
+              currentTierId={profile.currentTierId}
+            />
+          )}
+
+          {/* Posts feed with tabs */}
+          <ProfilePostsFeed
+            creatorId={profile.id}
+            creatorUsername={profile.username}
+            isOwnProfile={profile.isOwnProfile}
+            isSubscribed={profile.isSubscribed}
+          />
+        </>
       )}
 
-      {/* Posts feed with tabs */}
-      <ProfilePostsFeed
-        creatorId={profile.id}
-        creatorUsername={profile.username}
-        isOwnProfile={profile.isOwnProfile}
-        isSubscribed={profile.isSubscribed}
-      />
+      {/* Non-creator own profile prompt */}
+      {!profile.isCreator && profile.isOwnProfile && (
+        <div className="rounded-lg border border-border bg-card p-8 text-center">
+          <h2 className="mb-2 text-xl font-semibold text-foreground">Become a Creator</h2>
+          <p className="mb-6 text-sm text-muted-foreground">
+            Start sharing exclusive content and earning from your subscribers.
+          </p>
+          <a
+            href="/settings/profile"
+            className="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-all hover:bg-halo-gold-light"
+          >
+            Set Up Creator Profile
+          </a>
+        </div>
+      )}
     </div>
   );
 }
