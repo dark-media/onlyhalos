@@ -7,6 +7,12 @@ export const metadata: Metadata = {
   title: "OnlyHalos | Premium Creator Platform",
   description:
     "The elite platform where iconic creators share exclusive content with their most dedicated fans. Join the halo — where icons shine.",
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+  },
+  manifest: "/site.webmanifest",
   keywords: [
     "creator platform",
     "exclusive content",

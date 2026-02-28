@@ -1,0 +1,15 @@
+{
+  "name": "OnlyHalos",
+  "short_name": "OnlyHalos",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#0F0F13",
+  "background_color": "#0F0F13",
+  "display": "standalone"
+}
