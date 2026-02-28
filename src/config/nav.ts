@@ -40,7 +40,7 @@ export interface NavSection {
 // ---------------------------------------------------------------------------
 
 export const mainNavItems: NavItem[] = [
-  { title: "Home", href: "/", icon: Home },
+  { title: "Home", href: "/feed", icon: Home },
   { title: "Explore", href: "/explore", icon: Search },
   { title: "Notifications", href: "/notifications", icon: Bell },
   { title: "Messages", href: "/messages", icon: MessageSquare },
